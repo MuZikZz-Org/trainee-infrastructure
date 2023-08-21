@@ -35,6 +35,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+ #      - name: Fetch config.json from Another Repository
+ #        uses: actions/checkout@v2 # Checkout the other repository
+ #        with:
+ #          repository: MuZikZz-Org/trainee-common-config-test # Replace with the owner and repository name
+ #          ref: main # or the appropriate branch
+ #          path: /home/runner/work/trainee-common-config-test/trainee-common-config-test/${{ github.event.inputs.resource_choice }}/config-"${{ github.event.inputs.environment_choice }}".json
+ # # The path within your repository where the config.json will be stored
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:

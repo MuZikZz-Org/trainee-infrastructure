@@ -15,36 +15,43 @@ on:
           - prod
       resource_choice:
         type: choice
-        required: true
         description: Select resource
         options:
           - vm
           - something
 
 jobs:
-  login:
-    name: login
+  terraform_apply:
     runs-on: ubuntu-latest
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      TF_VERSION: 'latest'
-
-    defaults:
-      run:
-        shell: bash
 
     steps:
-      - name: Check out code  
-        uses: actions/checkout@v1
-    
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: ${{ env.TF_VERSION }}        
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: echo
-        id: echo
-        run: echo "Helloooooooo"
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Configure Terraform
+        run: terraform init
+
+      - name: Select Terraform directory
+        id: select_dir
+        run: |
+          case ${{ inputs.resource_choice }} in
+            vm)
+              echo "vm"
+              # echo "Running Terraform for VM resource"
+              # echo "##[set-output name=terraform_dir;]path/to/vm/directory"
+              ;;
+            something)
+              echo "vm"
+              # echo "Running Terraform for 'something' resource"
+              # echo "##[set-output name=terraform_dir;]path/to/something/directory"
+              ;;
+            *)
+              echo "Invalid resource choice"
+              exit 1
+              ;;
+          )
+        shell: bash
+

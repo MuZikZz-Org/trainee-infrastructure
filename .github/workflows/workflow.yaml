@@ -48,6 +48,10 @@ jobs:
           echo "Selected Terraform resource: $terraform_resource"
           cd "$terraform_resource"
           pwd
+      - name: Terraform init
+        run: |
+            pwd
+            terraform init
     
     
     

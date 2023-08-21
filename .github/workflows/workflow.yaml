@@ -46,21 +46,8 @@ jobs:
           terraform_resource="${{ github.event.inputs.resource_choice }}"
           echo "Selected Target Environment: $env"
           echo "Selected Terraform resource: $terraform_resource"
-
-          
-          # Check if the selected resource folder exists
-          if [ -d "$terraform_name" ]; then
-            cd "$terraform_name"
-            echo "cd done"            
-            # # Initialize Terraform
-            # terraform init
-            
-            # # Apply Terraform
-            # terraform apply \
-            #   -var environment="$env" \
-            #   -auto-approve
-          else
-            echo "Selected resource folder '$terraform_name' does not exist."
+          cd "$terraform_resource"
+          echo "cd done"
     
     
     

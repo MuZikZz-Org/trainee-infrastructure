@@ -51,12 +51,9 @@ jobs:
           terraform_resource="${{ github.event.inputs.resource_choice }}"
           echo "Selected Target Environment: $env"
           echo "Selected Terraform resource: $terraform_resource"
-          # cd ${terraform_resource}
+          cd ${terraform_resource}
           pwd
-          
-      - name: Terraform init
-        run: |    
-          pwd
+        
 
 
     

@@ -60,7 +60,7 @@ jobs:
           # get json config
           config_file="config-${env}.json"     
           git clone https://github.com/MuZikZz-Org/trainee-common-config-test.git
-          mv trainee-common-config-test/${terraform_name}/${config_file} .
+          mv trainee-common-config-test/${terraform_resource}/${config_file} .
           rm -rf trainee-common-config-test
           cat ${config_file}
 

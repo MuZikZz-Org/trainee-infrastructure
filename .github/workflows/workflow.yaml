@@ -1,35 +1,35 @@
 name: Terraform Deployment
 
 on:
-    workflow_dispatch:
-      inputs:
-        environment_choice:
-          type: choice
-          required: true
-          description: Select environment
-          options:
-            - dev
-            - alpha
-            - staging
-            - preprod
-            - prod
-        resource_choice:
-          type: choice
-          required: true
-          description: Select resource
-          options:
-            - create-azure-resource_group
-            - create-azure-vm
-        
+  workflow_dispatch:
+    inputs:
+      environment_choice:
+        type: choice
+        required: true
+        description: Select environment
+        options:
+          - dev
+          - alpha
+          - staging
+          - preprod
+          - prod
+      resource_choice:
+        type: choice
+        required: true
+        description: Select resource
+        options:
+          - create-azure-resource_group
+          - create-azure-vm
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-        TF_VERSION: 'latest'
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      TF_VERSION: 'latest'
 
     steps:
       - name: Checkout Repository
@@ -46,9 +46,14 @@ jobs:
           terraform_resource="${{ github.event.inputs.resource_choice }}"
           echo "Selected Target Environment: $env"
           echo "Selected Terraform resource: $terraform_resource"
+
+      - name: Terraform init
+        run: |
           cd "$terraform_resource"
           pwd
+          ls # List the contents of the directory
           terraform init
+
     
     
     

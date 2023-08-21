@@ -35,6 +35,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Set working directory
+        id: set_dir
+        run: |
+          echo "::set-output name=dir::${{ github.event.inputs.resource_choice }}"
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -46,7 +51,7 @@ jobs:
           terraform_resource="${{ github.event.inputs.resource_choice }}"
           echo "Selected Target Environment: $env"
           echo "Selected Terraform resource: $terraform_resource"
-          cd ${terraform_resource}
+          # cd ${terraform_resource}
           pwd
           
       - name: Terraform init

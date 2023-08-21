@@ -35,8 +35,15 @@ jobs:
     defaults:
       run:
         shell: bash
-        
+
     steps:
+      - name: Check out code  
+        uses: actions/checkout@v1
+    
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.TF_VERSION }}        
 
       - name: echo
         id: echo

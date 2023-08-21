@@ -18,8 +18,8 @@ on:
           required: true
           description: Select resource
           options:
-            - vm
-            - something
+            - create-azure-resource_group
+            - create-azure-vm
         
 jobs:
   deploy:
@@ -46,7 +46,8 @@ jobs:
           terraform_resource="${{ github.event.inputs.resource_choice }}"
           echo "Selected Target Environment: $env"
           echo "Selected Terraform resource: $terraform_resource"
-          # cd "$terraform_resource"
+          cd "$terraform_resource"
+          echo "cd done"
 
     
     

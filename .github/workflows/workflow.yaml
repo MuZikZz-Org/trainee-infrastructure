@@ -37,21 +37,8 @@ jobs:
       - name: Select Terraform directory
         id: select_dir
         run: |
-          case ${{ inputs.resource_choice }} in
-            vm)
-              echo "vm"
-              # echo "Running Terraform for VM resource"
-              # echo "##[set-output name=terraform_dir;]path/to/vm/directory"
-              ;;
-            something)
-              echo "vm"
-              # echo "Running Terraform for 'something' resource"
-              # echo "##[set-output name=terraform_dir;]path/to/something/directory"
-              ;;
-            *)
-              echo "Invalid resource choice"
-              exit 1
-              ;;
-          )
+          if [ -d "${INPUT_resource_choice}" ]; then
+          echo "${INPUT_resource_choice}"
+          # cd "${INPUT_resource_choice}"
         shell: bash
 

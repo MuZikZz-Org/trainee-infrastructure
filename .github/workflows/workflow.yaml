@@ -55,19 +55,14 @@ jobs:
           echo "Selected Target Environment: $env"
           echo "Selected Terraform resource: $terraform_resource"
           cd ${terraform_resource}
-          pwd
-        
-
-
-    
-    
-    
-    
-    #       config_file="config-${env}.json"
+          pwd    
           
-    #       git clone https://github.com/trainee-common-config-test.git
-    #       mv trainee-common-config-test/${terraform_name}/${config_file} .
-    #       rm -rf trainee-common-config-test
+          # get json config
+          config_file="config-${env}.json"     
+          git clone https://github.com/trainee-common-config-test.git
+          mv trainee-common-config-test/${terraform_name}/${config_file} .
+          rm -rf trainee-common-config-test
+          cat ${config_file}
 
     #   - name: Terraform Init
     #     id: init

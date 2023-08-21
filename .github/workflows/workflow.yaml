@@ -1,0 +1,35 @@
+name: 'Terraform Apply'
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment_choice:
+        type: choice
+        required: true
+        description: Select environment
+        options:
+          - dev
+          - alpha
+          - staging
+          - preprod
+          - prod
+      resource_choice:
+        type: choice
+        description: Select resource
+        options:
+          - vm
+          - something
+
+jobs:
+  test:
+    name: test  
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        
+    steps:
+
+      - name: echo
+        id: echo
+        run: echo "Helloooooooo"

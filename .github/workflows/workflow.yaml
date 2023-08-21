@@ -1,44 +1,69 @@
-name: 'Terraform Apply'
+name: Terraform Deployment
 
 on:
-  workflow_dispatch:
-    inputs:
-      environment_choice:
-        type: choice
-        required: true
-        description: Select environment
-        options:
-          - dev
-          - alpha
-          - staging
-          - preprod
-          - prod
-      resource_choice:
-        type: choice
-        description: Select resource
-        options:
-          - vm
-          - something
-
+    workflow_dispatch:
+      inputs:
+        environment_choice:
+          type: choice
+          required: true
+          description: Select environment
+          options:
+            - dev
+            - alpha
+            - staging
+            - preprod
+            - prod
+        resource_choice:
+          type: choice
+          required: true
+          description: Select resource
+          options:
+            - vm
+            - something
+        
 jobs:
-  terraform_apply:
+  deploy:
     runs-on: ubuntu-latest
+    env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+        TF_VERSION: 'latest'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
 
-      - name: Configure Terraform
-        run: terraform init
-
-      - name: Select Terraform directory
-        id: select_dir
+      - name: Fetch Terraform Config
         run: |
-          if [ -d "${INPUT_resource_choice}" ]; then
-          echo "${INPUT_resource_choice}"
-          # cd "${INPUT_resource_choice}"
-        shell: bash
+          env="${{ github.event.inputs.environment_choice }}"
+          terraform_name="${{ github.event.inputs.resource_choice }}"
+          echo "Selected Target Environment: $env"
+          echo "Selected Terraform Script Name: $terraform_name"
+    #       config_file="config-${env}.json"
+          
+    #       git clone https://github.com/trainee-common-config-test.git
+    #       mv trainee-common-config-test/${terraform_name}/${config_file} .
+    #       rm -rf trainee-common-config-test
 
+    #   - name: Terraform Init
+    #     id: init
+    #     run: terraform init
+
+    #   - name: Terraform Validate
+    #     id: validate
+    #     run: terraform validate
+
+    #   - name: Terraform Plan
+    #     id: plan
+    #     run: terraform plan -var-file="common_config.json" -lock=false
+
+    #   - name: Terraform Apply
+    #     id: apply
+    #     run: terraform apply -var-file="common_config.json" -lock=false -auto-approve 

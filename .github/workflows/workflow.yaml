@@ -15,6 +15,7 @@ on:
           - prod
       resource_choice:
         type: choice
+        required: true
         description: Select resource
         options:
           - vm

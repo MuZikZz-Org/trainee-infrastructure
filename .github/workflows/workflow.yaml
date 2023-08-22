@@ -68,7 +68,7 @@ jobs:
           sed -i "s|##ARM_TENANT_ID##|$ARM_TENANT_ID|g" ${config_file}
           sed -i "s|##ARM_CLIENT_ID##|$ARM_CLIENT_ID|g" ${config_file}
           sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
-          cat common_config.json
+          cat ${config_file}
           env   
 
     #   - name: Terraform Init

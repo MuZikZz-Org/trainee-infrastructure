@@ -61,10 +61,10 @@ jobs:
           sed -i "s|##ARM_TENANT_ID##|$ARM_TENANT_ID|g" ${config_file}
           sed -i "s|##ARM_CLIENT_ID##|$ARM_CLIENT_ID|g" ${config_file}
           sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
-          cat ${config_file}
+          cat ${config_file} > common_config.json
           env  
 
           terraform init
           terraform validate
-          terraform plan -var-file="./${config_file}" -lock=false
-          terraform apply -var-file="./${config_file}" -lock=false -auto-approve
+          terraform plan -var-file="common_config.json" -lock=false
+          terraform apply -var-file="common_config.json" -lock=false -auto-approve

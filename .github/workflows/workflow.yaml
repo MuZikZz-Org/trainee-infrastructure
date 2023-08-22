@@ -61,11 +61,20 @@ jobs:
           sed -i "s|##ARM_CLIENT_ID##|$ARM_CLIENT_ID|g" ${config_file}
           sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
           cat ${config_file}  
-          export COMMON_CONFIG=$(cat ${config_file})
+          # Upload the config file as an artifact
+          echo "$config_file" >> artifact_list.json
+          echo "$config_file" >> "$GITHUB_ENV"
 
       - name: Display Environment Variables
         run: |
-          cat "$COMMON_CONFIG"
+          env
+          cat artifact_list.json
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: config-artifact
+          path: ${{ env.config_file }}
         
       # - name: Terraform Init
       #   id: init

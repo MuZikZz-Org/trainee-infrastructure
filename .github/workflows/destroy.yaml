@@ -85,9 +85,9 @@ jobs:
       - name: Generate Terraform Plan
         run: |
           if [ "${{ github.event.inputs.apply_or_destroy }}" == "apply" ]; then
-            terraform plan -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false-auto-approve
+            terraform plan -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false
           elif [ "${{ github.event.inputs.apply_or_destroy }}" == "destroy" ]; then
-            terraform plan -destroy -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false -auto-approve
+            terraform plan -destroy -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false
           else
             echo "Invalid action: $apply_or_destroy"
             exit 1

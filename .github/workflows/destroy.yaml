@@ -67,3 +67,4 @@ jobs:
           terraform init
           terraform plan -destroy -var-file="./${config_file}" -lock=false
           terraform destroy -var-file="./${config_file}" -lock=false -auto-approve
+          echo "destroy done"

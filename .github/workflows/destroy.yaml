@@ -86,7 +86,7 @@ jobs:
         run: |
           if [ "${{ github.event.inputs.apply_or_destroy }}" == "apply" ]; then
             terraform plan -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false-auto-approve
-          elif [ "$${{ github.event.inputs.apply_or_destroy }}" == "destroy" ]; then
+          elif [ "${{ github.event.inputs.apply_or_destroy }}" == "destroy" ]; then
             terraform plan -destroy -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false -auto-approve
           else
             echo "Invalid action: $apply_or_destroy"
@@ -96,9 +96,9 @@ jobs:
 
       - name: Apply or Destroy Terraform Changes
         run: |
-          if [ "$${{ github.event.inputs.apply_or_destroy }}" == "apply" ]; then
+          if [ "${{ github.event.inputs.apply_or_destroy }}" == "apply" ]; then
             terraform apply -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false -auto-approve
-          elif [ "$${{ github.event.inputs.apply_or_destroy }}" == "destroy" ]; then
+          elif [ "${{ github.event.inputs.apply_or_destroy }}" == "destroy" ]; then
             terraform destroy -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false -auto-approve
           else
             echo "Invalid action: $apply_or_destroy"

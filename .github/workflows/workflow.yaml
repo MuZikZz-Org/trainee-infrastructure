@@ -3,13 +3,6 @@ name: Terraform Deployment
 on:
   workflow_dispatch:
     inputs:
-      apply or destroy:
-        type: choice
-        required: true
-        description: Apply or Destroy
-        options:
-          - apply
-          - destroy   
       environment_choice:
         type: choice
         required: true
@@ -72,23 +65,6 @@ jobs:
           sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
           cat ${config_file}  
 
-  destroy:
-    if: ${{ github.event.inputs.apply_or_destroy == 'destroy' }}
-    runs-on: ubuntu-latest
-    env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      TF_VERSION: 'latest'
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3    
-        
-      - name: Run Destroy Commands
-        run: |
-          echo "Destroying resources..."
         
     #   - name: Terraform Init
     #     id: init

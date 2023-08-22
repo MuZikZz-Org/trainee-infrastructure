@@ -31,7 +31,7 @@ on:
 
 jobs:
   deploy:
-    name: "Terraform ${{ github.event.inputs.apply_or_destroy^ }}: ${{ github.event.inputs.resource_choice }} - ${{ github.event.inputs.environment_choice }}"
+    name: "Terraform ${{ github.event.inputs.apply_or_destroy }}: ${{ github.event.inputs.resource_choice }} - ${{ github.event.inputs.environment_choice }}"
     runs-on: ubuntu-latest
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}

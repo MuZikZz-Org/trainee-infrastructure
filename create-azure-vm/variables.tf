@@ -38,7 +38,7 @@ variable "SRC_IMG_REF_VERSION" {}
     type        = map(string)
 }
 
-variable "resource_group_location" {
-  description = "Location of resource group."
-  type        = string
-}
+#variable "resource_group_location" {
+#  description = "Location of resource group."
+#  type        = string
+#}

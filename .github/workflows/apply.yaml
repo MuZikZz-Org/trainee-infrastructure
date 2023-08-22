@@ -53,17 +53,17 @@ jobs:
         run: |
           terraform_resource="${{ github.event.inputs.resource_choice }}"
           config_file="${{ steps.set_env.outputs.CONFIG_FILE }}"
+          working_directory="${{ steps.set_env.outputs.WORKING_DIRECTORY }}"
           git clone https://github.com/MuZikZz-Org/trainee-common-config-test.git
-          mv trainee-common-config-test/${terraform_resource}/${config_file} .
+          mv trainee-common-config-test/${terraform_resource}/${config_file} ${working_directory}/
           rm -rf trainee-common-config-test
-          sed -i "s|##ARM_SUBSCRIPTION_ID##|$ARM_SUBSCRIPTION_ID|g" ${config_file}
-          sed -i "s|##ARM_TENANT_ID##|$ARM_TENANT_ID|g" ${config_file}
-          sed -i "s|##ARM_CLIENT_ID##|$ARM_CLIENT_ID|g" ${config_file}
-          sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
+          sed -i "s|##ARM_SUBSCRIPTION_ID##|$ARM_SUBSCRIPTION_ID|g" ${working_directory}/${config_file}
+          sed -i "s|##ARM_TENANT_ID##|$ARM_TENANT_ID|g" ${working_directory}/${config_file}
+          sed -i "s|##ARM_CLIENT_ID##|$ARM_CLIENT_ID|g" ${working_directory}/${config_file}
+          sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${working_directory}/${config_file}
 
       - name: Display Config
-        run: cat "./${{ steps.set_env.outputs.CONFIG_FILE }}"
-        working-directory: ${{ steps.set_env.outputs.WORKING_DIRECTORY }}
+        run: cat "${{ steps.set_env.outputs.WORKING_DIRECTORY }}/${{ steps.set_env.outputs.CONFIG_FILE }}"
 
       - name: Initialize Terraform
         run: terraform init

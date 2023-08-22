@@ -25,8 +25,8 @@ on:
         required: true
         description: Select resource
         options:
-          - azure-resource_group
           - azure-vm
+          - azure-resource_group          
           - azure-loadbalancer
 
 jobs:

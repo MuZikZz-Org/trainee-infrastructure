@@ -66,5 +66,5 @@ jobs:
 
           terraform init
           terraform validate
-          terraform plan -var-file="common_config.json" -lock=false
-          terraform apply -var-file="common_config.json" -lock=false -auto-approve
+          terraform plan -var-file="./${config_file}" -lock=false
+          terraform apply -var-file="./${config_file}" -lock=false -auto-approve

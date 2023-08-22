@@ -18,8 +18,8 @@ on:
         required: true
         description: Select resource
         options:
-          - create-azure-resource_group
-          - create-azure-vm
+          - azure-resource_group
+          - azure-vm
 
 jobs:
   deploy:

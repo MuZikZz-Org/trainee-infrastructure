@@ -53,8 +53,8 @@ jobs:
           # get json config
           config_file="config-${env}.json"     
           git clone https://github.com/MuZikZz-Org/trainee-common-config-test.git
-          # mv trainee-common-config-test/${terraform_resource}/${config_file} .
-          # rm -rf trainee-common-config-test
+          mv trainee-common-config-test/${terraform_resource}/${config_file} .
+          rm -rf trainee-common-config-test
           cat ${config_file}
           
           sed -i "s|##ARM_SUBSCRIPTION_ID##|$ARM_SUBSCRIPTION_ID|g" ${config_file}

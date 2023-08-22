@@ -63,8 +63,8 @@ jobs:
           sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
 
       - name: Display Config
-        run: cat "./${{ steps.set_env.outputs.config_file }}"
-        working-directory: ${{ steps.set_env.outputs.working_directory }}
+        run: cat "${{ env.WORKING_DIRECTORY }}/${{ steps.set_env.outputs.config_file }}"
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: Initialize Terraform
         run: terraform init

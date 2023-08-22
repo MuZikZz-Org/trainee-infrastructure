@@ -49,7 +49,8 @@ jobs:
           echo "Selected Target Environment: $env"
           echo "Selected Terraform resource: $terraform_resource"
           cd ${terraform_resource}
-          pwd    
+          pwd
+          echo "cd to working directory done"
           
           # get json config
           config_file="config-${env}.json"     
@@ -57,15 +58,18 @@ jobs:
           mv trainee-common-config-test/${terraform_resource}/${config_file} .
           rm -rf trainee-common-config-test
           cat ${config_file}
+          echo "get config done"
           
           sed -i "s|##ARM_SUBSCRIPTION_ID##|$ARM_SUBSCRIPTION_ID|g" ${config_file}
           sed -i "s|##ARM_TENANT_ID##|$ARM_TENANT_ID|g" ${config_file}
           sed -i "s|##ARM_CLIENT_ID##|$ARM_CLIENT_ID|g" ${config_file}
           sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
           cat ${config_file} 
+          echo "sed done"
           env  
 
           terraform init
           terraform validate
           terraform plan -var-file="./${config_file}" -lock=false
           terraform apply -var-file="./${config_file}" -lock=false -auto-approve
+          echo "apply done"

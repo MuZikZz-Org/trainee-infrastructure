@@ -82,7 +82,7 @@ jobs:
 
 
   destroy:
-    if: ${{ github.event.inputs.apply_or_destroy == 'desroy' }}
+    if: ${{ github.event.inputs.apply_or_destroy == 'destroy' }}
     runs-on: ubuntu-latest
 
     env:

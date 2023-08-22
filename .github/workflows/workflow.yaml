@@ -95,9 +95,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3    
         
-      - name: test
+      - name: Run Destroy Commands
         run: |
-          echo "destry"
+          echo "Destroying resources..."
+
 
         
     #   - name: Terraform Init

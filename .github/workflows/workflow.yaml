@@ -3,6 +3,13 @@ name: Terraform Deployment
 on:
   workflow_dispatch:
     inputs:
+      apply or destroy:
+        type: choice
+        required: true
+        description: Select environment
+        options:
+          - apply
+          - destroy   
       environment_choice:
         type: choice
         required: true
@@ -23,6 +30,7 @@ on:
 
 jobs:
   deploy:
+    if: ${{ github.event.inputs.apply_or_destroy == 'apply' }}
     runs-on: ubuntu-latest
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
@@ -48,64 +56,51 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      # - name: Fetch Terraform Config
-      #   run: |
-      #     env="${{ github.event.inputs.environment_choice }}"
-      #     terraform_resource="${{ github.event.inputs.resource_choice }}"
-      #     echo "Selected Target Environment: $env"
-      #     echo "Selected Terraform resource: $terraform_resource"
-      #     cd ${terraform_resource}
-      #     pwd    
-          
-      #     # get json config
-      #     config_file="config-${env}.json"     
-      #     git clone https://github.com/MuZikZz-Org/trainee-common-config-test.git
-      #     mv trainee-common-config-test/${terraform_resource}/${config_file} .
-      #     rm -rf trainee-common-config-test
-      #     cat ${config_file}
-          
-      #     sed -i "s|##ARM_SUBSCRIPTION_ID##|$ARM_SUBSCRIPTION_ID|g" ${config_file}
-      #     sed -i "s|##ARM_TENANT_ID##|$ARM_TENANT_ID|g" ${config_file}
-      #     sed -i "s|##ARM_CLIENT_ID##|$ARM_CLIENT_ID|g" ${config_file}
-      #     sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
-      #     cat ${config_file}
-      #     env
-
-      - name: Set Terraform and Environment Variables
+      - name: Fetch Terraform Config
         run: |
           env="${{ github.event.inputs.environment_choice }}"
           terraform_resource="${{ github.event.inputs.resource_choice }}"
           echo "Selected Target Environment: $env"
-          echo "Selected Terraform Resource: $terraform_resource"
-          echo "Current Directory: $(pwd)"
+          echo "Selected Terraform resource: $terraform_resource"
           cd ${terraform_resource}
-          echo "Changed Directory: $(pwd)"
-        shell: bash
-
-      - name: Fetch Terraform Config
-        run: |
+          pwd    
+          
+          # get json config
           config_file="config-${env}.json"     
           git clone https://github.com/MuZikZz-Org/trainee-common-config-test.git
           mv trainee-common-config-test/${terraform_resource}/${config_file} .
           rm -rf trainee-common-config-test
           cat ${config_file}
-        shell: bash
-
-      - name: Update Config File with Secrets
-        run: |
+          
           sed -i "s|##ARM_SUBSCRIPTION_ID##|$ARM_SUBSCRIPTION_ID|g" ${config_file}
           sed -i "s|##ARM_TENANT_ID##|$ARM_TENANT_ID|g" ${config_file}
           sed -i "s|##ARM_CLIENT_ID##|$ARM_CLIENT_ID|g" ${config_file}
           sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
           cat ${config_file}
-        shell: bash
+          env   
 
-          
-      #     terraform init
-      #     terraform validate
-      #     terraform plan -var-file="${config_file}" -lock=false
-      #     terraform apply  -var-file="${config_file}" -lock=false -auto-approve 
 
+
+  destroy:
+    if: ${{ github.event.inputs.apply_or_destroy == 'desroy' }}
+    runs-on: ubuntu-latest
+
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      TF_VERSION: 'latest'
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3    
+        
+      - name: test
+        run: |
+          echo "destry"
+
+        
     #   - name: Terraform Init
     #     id: init
     #     run: terraform init

@@ -42,7 +42,7 @@ jobs:
           terraform_version: ${{ env.TF_VERSION }}
 
 
-      - name: Fetch Terraform Config
+      - name: destroying
         run: |
           env="${{ github.event.inputs.environment_choice }}"
           terraform_resource="${{ github.event.inputs.resource_choice }}"

@@ -65,7 +65,7 @@ jobs:
 
       - name: Display Environment Variables
         run: |
-          echo "$COMMON_CONFIG"
+          cat "$COMMON_CONFIG"
         
       # - name: Terraform Init
       #   id: init

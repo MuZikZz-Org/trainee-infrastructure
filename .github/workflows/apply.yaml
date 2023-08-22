@@ -44,15 +44,15 @@ jobs:
       - name: Set Environment Variables
         id: set_env
         run: |
-          env="${{ github.event.inputs.environment_choice }}"
-          terraform_resource="${{ github.event.inputs.resource_choice }}"
-          echo "Selected Target Environment: $env"
-          echo "Selected Terraform resource: $terraform_resource"
-          echo "::set-env name=WORKING_DIRECTORY::${terraform_resource}"
+          echo "Selected Target Environment: ${{ github.event.inputs.environment_choice }}"
+          echo "Selected Terraform resource: ${{ github.event.inputs.resource_choice }}"
+          echo "::set-output name=WORKING_DIRECTORY::${{ github.event.inputs.resource_choice }}"
+          echo "::set-output name=CONFIG_FILE::config-${{ github.event.inputs.environment_choice }}.json"
 
       - name: Fetch and Modify Config
         run: |
-          config_file="config-${env}.json"     
+          terraform_resource="${{ github.event.inputs.resource_choice }}"
+          config_file="${{ steps.set_env.outputs.CONFIG_FILE }}"
           git clone https://github.com/MuZikZz-Org/trainee-common-config-test.git
           mv trainee-common-config-test/${terraform_resource}/${config_file} .
           rm -rf trainee-common-config-test
@@ -62,21 +62,21 @@ jobs:
           sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
 
       - name: Display Config
-        run: cat "./${{ steps.set_env.outputs.config_file }}"
-        working-directory: ${{ steps.set_env.outputs.working_directory }}
+        run: cat "./${{ steps.set_env.outputs.CONFIG_FILE }}"
+        working-directory: ${{ steps.set_env.outputs.WORKING_DIRECTORY }}
 
       - name: Initialize Terraform
         run: terraform init
-        working-directory: ${{ steps.set_env.outputs.working_directory }}
+        working-directory: ${{ steps.set_env.outputs.WORKING_DIRECTORY }}
 
       - name: Validate Terraform Configuration
         run: terraform validate
-        working-directory: ${{ steps.set_env.outputs.working_directory }}
+        working-directory: ${{ steps.set_env.outputs.WORKING_DIRECTORY }}
 
       - name: Generate Terraform Plan
-        run: terraform plan -var-file="./${{ steps.set_env.outputs.config_file }}" -lock=false
-        working-directory: ${{ steps.set_env.outputs.working_directory }}
+        run: terraform plan -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false
+        working-directory: ${{ steps.set_env.outputs.WORKING_DIRECTORY }}
 
       - name: Apply Terraform Changes
-        run: terraform apply -var-file="./${{ steps.set_env.outputs.config_file }}" -lock=false -auto-approve
-        working-directory: ${{ steps.set_env.outputs.working_directory }}
+        run: terraform apply -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false -auto-approve
+        working-directory: ${{ steps.set_env.outputs.WORKING_DIRECTORY }}

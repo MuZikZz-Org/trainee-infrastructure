@@ -20,6 +20,7 @@ on:
         options:
           - azure-resource_group
           - azure-vm
+          - azure-loadbalancer
 
 jobs:
   deploy:

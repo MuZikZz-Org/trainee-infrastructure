@@ -1,0 +1,25 @@
+{
+	"workload_access_key"		      		    : "##WorkloadAccessKey##",
+	"workload_access_secretkey"	  				: "##WorkloadAccessSecretKey##",
+	"network_access_key"		      		    : "##NetworkAccessKey##",
+	"network_access_secretkey"	  				: "##NetworkAccessSecretKey##",
+	"custom_subnet_name"						: "ApplicationGateway2Subnet",
+	"custom_workload_resource_group_name" : "",
+	"env_tags": {
+		"CloudProvider": "##Cloud##",
+		"Region": "##Region##",
+		"DCName": "##DCName##",
+		"AccountType": "##TargetAccountType##",
+		"TerraformConfigRepo": "##TerraformConfigRepo##",
+		"Company": "##CompanyName##",
+		"Project"  : "##ProjectName##",
+		"ProjectAbbrev": "##ProjectAbbrev##",
+		"PlatformEnvType" : "##EnvGroup##",
+		"Environment" : "##EnvName##",
+		"ServiceGroup" : "##ServiceName##"
+	},
+	"lb_type" : "private",
+	"lb_sku_name" : "Standard",
+	"frontend_private_ip_address_allocation" : "Static",
+	"frontend_private_ip_address" : "10.234.227.112"
+}

@@ -1,8 +1,15 @@
-name: Terraform Destroy
+name: Terraform Apply or Destroy
 
 on:
   workflow_dispatch:
     inputs:
+      apply_or_destroy:
+        type: choice
+        required: true
+        description: Apply or Destroy
+        options:
+          - apply
+          - destroy
       environment_choice:
         type: choice
         required: true
@@ -34,37 +41,67 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-
-      - name: destroying
+      - name: Set Environment Variables
+        id: set_env
         run: |
-          env="${{ github.event.inputs.environment_choice }}"
+          apply_or_destroy="${{ github.event.inputs.apply_or_destroy }}"
+          echo "Selected Action: $apply_or_destroy"
+          echo "Selected Target Environment: ${{ github.event.inputs.environment_choice }}"
+          echo "Selected Terraform resource: ${{ github.event.inputs.resource_choice }}"
+          echo "::set-output name=WORKING_DIRECTORY::${{ github.event.inputs.resource_choice }}"
+          echo "::set-output name=CONFIG_FILE::config-${{ github.event.inputs.environment_choice }}.json"
+
+      - name: Fetch and Modify Config
+        run: |
           terraform_resource="${{ github.event.inputs.resource_choice }}"
-          echo "Selected Target Environment: $env"
-          echo "Selected Terraform resource: $terraform_resource"
-          cd ${terraform_resource}
-          pwd    
-          
-          # get json config
-          config_file="config-${env}.json"     
+          config_file="${{ steps.set_env.outputs.CONFIG_FILE }}"
+          working_directory="${{ steps.set_env.outputs.WORKING_DIRECTORY }}"
           git clone https://github.com/MuZikZz-Org/trainee-common-config-test.git
-          mv trainee-common-config-test/${terraform_resource}/${config_file} .
+          mv trainee-common-config-test/${terraform_resource}/${config_file} ${working_directory}/
           rm -rf trainee-common-config-test
-          cat ${config_file}
-          
-          sed -i "s|##ARM_SUBSCRIPTION_ID##|$ARM_SUBSCRIPTION_ID|g" ${config_file}
-          sed -i "s|##ARM_TENANT_ID##|$ARM_TENANT_ID|g" ${config_file}
-          sed -i "s|##ARM_CLIENT_ID##|$ARM_CLIENT_ID|g" ${config_file}
-          sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
-          cat ${config_file} 
-          env  
-          terraform init
-          terraform plan -destroy -var-file="./${config_file}" -lock=false
-          terraform destroy -var-file="./${config_file}" -lock=false -auto-approve
-          echo "destroy done"
+          sed -i "s|##ARM_SUBSCRIPTION_ID##|$ARM_SUBSCRIPTION_ID|g" ${working_directory}/${config_file}
+          sed -i "s|##ARM_TENANT_ID##|$ARM_TENANT_ID|g" ${working_directory}/${config_file}
+          sed -i "s|##ARM_CLIENT_ID##|$ARM_CLIENT_ID|g" ${working_directory}/${config_file}
+          sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${working_directory}/${config_file}
+
+      - name: Display Config
+        run: cat "${{ steps.set_env.outputs.WORKING_DIRECTORY }}/${{ steps.set_env.outputs.CONFIG_FILE }}"
+
+      - name: Initialize Terraform
+        run: terraform init
+        working-directory: ${{ steps.set_env.outputs.WORKING_DIRECTORY }}
+
+      - name: Validate Terraform Configuration
+        run: terraform validate
+        working-directory: ${{ steps.set_env.outputs.WORKING_DIRECTORY }}
+
+      - name: Generate Terraform Plan
+        run: |
+          if [ "$apply_or_destroy" == "apply" ]; then
+            terraform plan -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false-auto-approve
+          elif [ "$apply_or_destroy" == "destroy" ]; then
+            terraform plan -destroy -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false -auto-approve
+          else
+            echo "Invalid action: $apply_or_destroy"
+            exit 1
+          fi          
+        working-directory: ${{ steps.set_env.outputs.WORKING_DIRECTORY }}
+
+      - name: Apply or Destroy Terraform Changes
+        run: |
+          if [ "$apply_or_destroy" == "apply" ]; then
+            terraform apply -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false -auto-approve
+          elif [ "$apply_or_destroy" == "destroy" ]; then
+            terraform destroy -var-file="./${{ steps.set_env.outputs.CONFIG_FILE }}" -lock=false -auto-approve
+          else
+            echo "Invalid action: $apply_or_destroy"
+            exit 1
+          fi
+        working-directory: ${{ steps.set_env.outputs.WORKING_DIRECTORY }}

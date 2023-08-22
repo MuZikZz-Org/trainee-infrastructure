@@ -43,45 +43,52 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
- #      - name: Fetch config.json from Another Repository
- #        uses: actions/checkout@v2 # Checkout the other repository
- #        with:
- #          repository: MuZikZz-Org/trainee-common-config-test # Replace with the owner and repository name
- #          ref: main # or the appropriate branch
- #          path: /home/runner/work/trainee-common-config-test/trainee-common-config-test/${{ github.event.inputs.resource_choice }}/config-"${{ github.event.inputs.environment_choice }}".json
- # # The path within your repository where the config.json will be stored
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
 
-      - name: Fetch Terraform Config
+      - name: Set Terraform and Environment Variables
         run: |
           env="${{ github.event.inputs.environment_choice }}"
           terraform_resource="${{ github.event.inputs.resource_choice }}"
           echo "Selected Target Environment: $env"
           echo "Selected Terraform resource: $terraform_resource"
-          cd ${terraform_resource}
-          pwd    
-          
-          # get json config
-          config_file="config-${env}.json"     
+        
+      - name: Fetch Terraform Config
+        run: |
+          cd ${{ github.workspace }}/${{ github.event.inputs.resource_choice }}
+          config_file="config-${env}.json"
           git clone https://github.com/MuZikZz-Org/trainee-common-config-test.git
           mv trainee-common-config-test/${terraform_resource}/${config_file} .
           rm -rf trainee-common-config-test
           cat ${config_file}
-          
+
+      - name: Update Config File with Secrets
+        run: |
           sed -i "s|##ARM_SUBSCRIPTION_ID##|$ARM_SUBSCRIPTION_ID|g" ${config_file}
           sed -i "s|##ARM_TENANT_ID##|$ARM_TENANT_ID|g" ${config_file}
           sed -i "s|##ARM_CLIENT_ID##|$ARM_CLIENT_ID|g" ${config_file}
           sed -i "s|##ARM_CLIENT_SECRET##|$ARM_CLIENT_SECRET|g" ${config_file}
-          cat ${config_file}
-          env   
+          cat ${config_file}  
 
+  destroy:
+    if: ${{ github.event.inputs.apply_or_destroy == 'destroy' }}
+    runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      TF_VERSION: 'latest'
 
-
-
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3    
+        
+      - name: Run Destroy Commands
+        run: |
+          echo "Destroying resources..."
         
     #   - name: Terraform Init
     #     id: init

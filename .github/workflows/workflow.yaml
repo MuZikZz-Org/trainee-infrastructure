@@ -6,7 +6,7 @@ on:
       apply or destroy:
         type: choice
         required: true
-        description: Select environment
+        description: Apply or Destroy
         options:
           - apply
           - destroy   
@@ -84,7 +84,6 @@ jobs:
   destroy:
     if: ${{ github.event.inputs.apply_or_destroy == 'destroy' }}
     runs-on: ubuntu-latest
-
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}

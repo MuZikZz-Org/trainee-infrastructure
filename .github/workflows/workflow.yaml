@@ -50,7 +50,7 @@ jobs:
       - name: Fetch Terraform Config
         run: |
           cd ${{ github.workspace }}/${{ github.event.inputs.resource_choice }}
-          config_file="config-${env}.json"
+          config_file="config-${{ github.event.inputs.environment_choice }}.json"
           git clone https://github.com/MuZikZz-Org/trainee-common-config-test.git
           mv trainee-common-config-test/${terraform_resource}/${config_file} .
           rm -rf trainee-common-config-test

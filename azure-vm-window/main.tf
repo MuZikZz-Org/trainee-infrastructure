@@ -15,7 +15,7 @@ data "azurerm_virtual_network" "network" {
 data "azurerm_subnet" "network" {
   name                 = "trainee-window-Subnet"
   resource_group_name  = "rg-ais-payment-gateway"
-  virtual_network_name = azurerm_virtual_network.my_terraform_network.name
+  virtual_network_name = azurerm_virtual_network.network.name
   address_prefixes     = ["10.0.1.0/24"]
 }
 

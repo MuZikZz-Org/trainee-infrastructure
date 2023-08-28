@@ -53,6 +53,7 @@ resource "azurerm_network_security_group" "sg" {
     tags = merge(
      var.env_tags
    )
+
 }
 
 ##########################################################################################
@@ -76,9 +77,9 @@ resource "azurerm_network_security_group" "sg" {
 
 resource "azurerm_windows_virtual_machine" "vm" {
    count                 = var.instance_count
-   name                  = format("%s-%02d",local.vm_name,count.index+1)
-   location            = local.location
-   resource_group_name = local.resource_group_name
+   name                  = "trainee-vm-window"
+   location            = "southeastasia"
+   resource_group_name = "rg-ais-payment-gateway"
    network_interface_ids = [element(azurerm_network_interface.net.*.id, count.index)]
    size                  = var.vm_size
    admin_username        = var.os_admin_username

@@ -1,8 +1,6 @@
 provider "azurerm" {
   features {
-    resource_group {
-      prevent_deletion_if_contains_resources = true
-    }
+
   }
   subscription_id = var.ARM_SUBSCRIPTION_ID
   tenant_id       = var.ARM_TENANT_ID

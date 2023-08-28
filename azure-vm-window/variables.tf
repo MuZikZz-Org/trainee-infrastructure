@@ -28,10 +28,6 @@ variable "SRC_IMG_REF_PUBLISHER" {}
 variable "SRC_IMG_REF_OFFER" {}
 variable "SRC_IMG_REF_SKU" {}
 variable "SRC_IMG_REF_VERSION" {}
-variable "workload_access_key" {
-  description = "Workload Access Key (Exiting in common-configs - Need define in placeholder-config.json)"
-  type        = string
-}
 
 
 variable "env_tags" {

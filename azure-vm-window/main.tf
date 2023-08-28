@@ -1,41 +1,22 @@
-locals {
-  name                = format("%s-%s-%s-%s",var.env_tags["Company"],var.env_tags["ProjectAbbrev"],var.env_tags["ServiceGroup"],var.env_tags["Environment"])
-  resource_group_name = element(coalescelist(data.azurerm_resource_group.main.*.name, azurerm_resource_group.main.*.name, [""]), 0)
-  location            = element(coalescelist(data.azurerm_resource_group.main.*.location, azurerm_resource_group.main.*.location, [""]), 0)
-  subnet_name         = var.custom_subnet_name != "" ?  var.custom_subnet_name : var.subnet.name
-  specific_win_name   = format("%s-%s-%s",var.env_tags["ProjectAbbrev"],var.env_tags["ServiceGroup"],var.env_tags["Environment"])
-  vm_name             = var.custom_vm_name != "" ? var.custom_vm_name : format("%s",local.specific_win_name)
-}
-
-##########################################################################################
-# Resource Group
-##########################################################################################
-data "azurerm_resource_group" "main" {
-  count = var.create_resource_group == false ? 1 : 0
-  name  = var.custom_resource_group_name != "" ? var.custom_resource_group_name : format("rg-%s",lower(local.name))
-}
-
-resource "azurerm_resource_group" "main" {
-  count    = var.create_resource_group ? 1 : 0
-  name     = var.custom_resource_group_name != "" ? var.custom_resource_group_name : format("rg-%s",lower(local.name))
-  location = var.az_location_name
-  tags = merge(
-    var.env_tags
-  )
-}
 
 ##########################################################################################
 # Virtual Network
 ##########################################################################################
 data "azurerm_virtual_network" "network" {
-  name                 = var.vnet.name
-  resource_group_name  = var.vnet.resource_group_name
+  name                = "trainee-window-Vnet"
+  address_space       = ["10.0.0.0/16"]
+  location            = "SoutheastAsia"
+  resource_group_name = "rg-ais-payment-gateway"
+  tags = merge(
+     var.env_tags
+   )
 }
 ############################ subnet ##########################
 data "azurerm_subnet" "network" {
-  name                 = local.subnet_name
-  virtual_network_name = data.azurerm_virtual_network.network.name
-  resource_group_name  = var.subnet.resource_group_name
+  name                 = "trainee-window-Subnet"
+  resource_group_name  = "rg-ais-payment-gateway"
+  virtual_network_name = azurerm_virtual_network.my_terraform_network.name
+  address_prefixes     = ["10.0.1.0/24"]
 }
 
 
@@ -43,9 +24,9 @@ data "azurerm_subnet" "network" {
 # Security Group
 ##########################################################################################
 resource "azurerm_network_security_group" "sg" {
-  name                = format("sg-%s",local.name)
-  location            = local.location
-  resource_group_name = local.resource_group_name
+  name                = "trainee-NetworkSecurityGroup"
+  location            = "SoutheastAsia"
+  resource_group_name = "rg-ais-payment-gateway"
 
   security_rule {
     name                       = "SSHPort"
@@ -69,16 +50,18 @@ resource "azurerm_network_security_group" "sg" {
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
+    tags = merge(
+     var.env_tags
+   )
 }
 
 ##########################################################################################
 # Network Interface
 ##########################################################################################
  resource "azurerm_network_interface" "net" {
-   count               = var.instance_count
-   name                = format("net-int-%s-%02d",local.name,count.index+1)
-   location            = local.location
-   resource_group_name = local.resource_group_name
+  name                = "trainee-NIC"
+  location            = "SoutheastAsia"
+  resource_group_name = "rg-ais-payment-gateway"
    tags = merge(
     var.env_tags
    )
@@ -104,7 +87,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
    patch_mode            = var.patch_mode
    zone                  = var.vm_zone
    # Uncomment this line to delete the OS disk automatically when deleting the VM
-  #  delete_os_disk_on_termination = true
+   delete_os_disk_on_termination = true
 
    # Uncomment this line to delete the data disks automatically when deleting the VM
   #  delete_data_disks_on_termination = true

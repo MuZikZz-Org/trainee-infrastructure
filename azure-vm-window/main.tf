@@ -86,7 +86,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
    admin_password        = var.os_admin_password
    hotpatching_enabled   = false
    # Uncomment this line to delete the OS disk automatically when deleting the VM
-   delete_os_disk_on_termination = true
+
 
    # Uncomment this line to delete the data disks automatically when deleting the VM
   #  delete_data_disks_on_termination = true

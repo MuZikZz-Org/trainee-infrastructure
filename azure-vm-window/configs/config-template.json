@@ -1,35 +1,23 @@
 {
-	"workload_access_key"       : "##WorkloadAccessKey##",
-	"workload_access_secretkey" : "##WorkloadAccessSecretKey##",
+	"ARM_SUBSCRIPTION_ID" : "##ARM_SUBSCRIPTION_ID##",
+	"ARM_TENANT_ID" : "##ARM_TENANT_ID##",
+	"ARM_CLIENT_ID" : "##ARM_CLIENT_ID##",
+	"ARM_CLIENT_SECRET" : "##ARM_CLIENT_SECRET##",	
 	"env_tags": {
-		"CloudProvider": "##Cloud##",
-		"Region": "##Region##",
-		"DCName": "##DCName##",
-		"AccountType": "##TargetAccountType##",
-		"TerraformConfigRepo": "##TerraformConfigRepo##",
-		"Company": "##CompanyName##",
-		"Project"  : "##ProjectName##",
-		"ProjectAbbrev": "##ProjectAbbrev##",
-		"PlatformEnvType" : "##EnvGroup##",
-		"Environment" : "##EnvName##",
-		"ServiceGroup" : "##ServiceName##",
-		"AutoStartStop" : false
+		"Environment": "sandbox",
+		"company":  "techx",
+		"emailowner": "pongsathorn.upan@scbtechx.io",
+		"project": "AIS-Payment-gateway",
+		"validdate": "30Sep2023"
 	},
+        "SRC_IMG_REF_PUBLISHER" : "MicrosoftWindowsServer",
+        "SRC_IMG_REF_OFFER" : "WindowsServer",
+        "SRC_IMG_REF_SKU" : "2016-Datacenter",
+        "SRC_IMG_REF_VERSION" : "latest",
 	"custom_subnet_name": "",
 	"create_resource_group": true,
 	"custom_resource_group_name": "",
 	"custom_vm_name": "",
 	"instance_count": "1",
 	"vm_size": "Standard_D2s_v3",
-	"vm_zone": "2",
-	"patch_mode": "AutomaticByPlatform",
-	"os_admin_username": "##OS_Admin_User##",
-	"os_admin_password": "##OS_Admin_Password##",
-	"storage_image_id":"/subscriptions/8ef675b4-d166-48e7-8af1-129c4ea021b9/resourceGroups/rg-scb-mandatory-image/providers/Microsoft.Compute/galleries/sig_scb_mandatory_image/images/si-scb-mandatory-image-ubuntu2004/versions/1.0.0",
-	"imageReference": {
-		"publisher": "MicrosoftWindowsServer",
-		"offer": "WindowsServer",
-		"sku": "2022-datacenter-azure-edition",
-		"version": "latest"
-	}
 }

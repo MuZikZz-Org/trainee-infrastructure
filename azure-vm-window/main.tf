@@ -80,7 +80,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
    name                  = "trainee-vm-window"
    location            = "southeastasia"
    resource_group_name = "rg-ais-payment-gateway"
-   network_interface_ids = [element(azurerm_network_interface.net.*.id, count.index)]
+   network_interface_ids = azurerm_network_interface.net.id
    size                  = var.vm_size
    admin_username        = var.os_admin_username
    admin_password        = var.os_admin_password
@@ -116,7 +116,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
 
  resource "azurerm_network_interface_security_group_association" "networkassociation" {
   count                     = var.instance_count 
-  network_interface_id      = azurerm_network_interface.net[count.index].id
+  network_interface_id      = azurerm_network_interface.net.id
   network_security_group_id = azurerm_network_security_group.sg.id
   depends_on = [
     azurerm_network_security_group.sg,

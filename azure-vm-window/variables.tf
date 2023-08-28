@@ -107,10 +107,6 @@ variable "custom_subnet_name" {
   default     = ""
   type        = string
 }
-variable "imageReference" {
-  description = "Specific Window Image"
-  type        = map(string)
-}
 variable "patch_mode" {
   description = "Specifies the mode of in-guest patching to this Windows Virtual Machine"
   default     = ""

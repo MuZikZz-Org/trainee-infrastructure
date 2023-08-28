@@ -27,7 +27,7 @@ on:
         options:
           - azure-vm
           - azure-vm-window
-          - azure-resource_group          
+          - azure-resource-group          
 
 jobs:
   Terraform:

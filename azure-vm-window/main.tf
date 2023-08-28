@@ -68,7 +68,7 @@ resource "azurerm_network_security_group" "sg" {
 
    ip_configuration {
      name                          = format("ip-conf-%s-%02d",local.name,count.index+1)
-     subnet_id                     = data.azurerm_subnet.network.id
+     subnet_id                     = resource.azurerm_subnet.network.id
      private_ip_address_allocation = "Dynamic"
    }
  }

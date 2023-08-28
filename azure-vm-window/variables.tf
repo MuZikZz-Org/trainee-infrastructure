@@ -19,20 +19,6 @@ variable "ARM_CLIENT_SECRET" {
     description = "Azure Client Secret (Exiting in common-configs)"
     type        = string
 }
-variable "subnet" {
-  description = "Subnet (Exiting in common-configs)"
-}
-variable "vnet" {
-  description = "VNet (Exiting in common-configs)"
-}
-variable "az_location_name" {
-  description = "Azure location Name (Exiting in common-configs)"
-  type        = string
-}
-variable "vm_disk_encryption_set_id" {
-  description = "Azure VM Disk Encryption set ID (Exiting in common-configs)"
-  type        = string
-}
 
 ######################################################################
 #                               CUSTOM
@@ -62,16 +48,6 @@ variable "env_tags" {
   description = "Additional environment tags"
   type        = map(string)
 }
-variable "create_resource_group" {
-  description = "Enable Create Resource Group"
-  type = bool
-  default = false
-}
-variable "custom_resource_group_name" {
-  description = "Specific Resource Group Name"
-  default     = ""
-  type        = string
-}
 variable "custom_vm_name" {
   description = "Specific Virtual Machine Name"
   default     = ""
@@ -86,10 +62,6 @@ variable "vm_size" {
   description = "Type of VM size"
   type = string
 }
-variable "vm_zone" {
-  description = "Type of VM zone"
-  type = string
-}
 variable "os_admin_username" {
   description = "Window OS Admin Username"
   type = string
@@ -97,20 +69,6 @@ variable "os_admin_username" {
 variable "os_admin_password" {
   description = "Window OS Admin Password"
   type = string
-}
-variable "storage_image_id" {
-  description = "Window OS Base Image"
-  type = string
-}
-variable "custom_subnet_name" {
-  description = "Specific Custom Subnet"
-  default     = ""
-  type        = string
-}
-variable "patch_mode" {
-  description = "Specifies the mode of in-guest patching to this Windows Virtual Machine"
-  default     = ""
-  type        = string
 }
 
 

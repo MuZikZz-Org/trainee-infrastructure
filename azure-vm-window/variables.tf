@@ -1,13 +1,23 @@
 ######################################################################
 #                               COMMON
 ######################################################################
-variable "tenant_id" {
-  description = "Azure Tenant ID (Exiting in common-configs)"
-  type        = string
+
+variable "ARM_SUBSCRIPTION_ID" {
+    description = "Azure Subscription ID (Exiting in common-configs)"
+    type        = string
 }
-variable "subscription_id" {
-  description = "Azure Subscription ID (Exiting in common-configs)"
-  type        = string
+
+variable "ARM_TENANT_ID" {
+    description = "Azure Tenant ID (Exiting in common-configs)"
+    type        = string
+}
+variable "ARM_CLIENT_ID" {
+    description = "Azure Client ID (Exiting in common-configs)"
+    type        = string
+}
+variable "ARM_CLIENT_SECRET" {
+    description = "Azure Client Secret (Exiting in common-configs)"
+    type        = string
 }
 variable "subnet" {
   description = "Subnet (Exiting in common-configs)"
@@ -27,6 +37,11 @@ variable "vm_disk_encryption_set_id" {
 ######################################################################
 #                               CUSTOM
 ######################################################################
+
+variable "SRC_IMG_REF_PUBLISHER" {}
+variable "SRC_IMG_REF_OFFER" {}
+variable "SRC_IMG_REF_SKU" {}
+variable "SRC_IMG_REF_VERSION" {}
 variable "workload_access_key" {
   description = "Workload Access Key (Exiting in common-configs - Need define in placeholder-config.json)"
   type        = string

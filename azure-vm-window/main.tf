@@ -90,12 +90,12 @@ resource "azurerm_windows_virtual_machine" "vm" {
    # Uncomment this line to delete the data disks automatically when deleting the VM
   #  delete_data_disks_on_termination = true
 
-    source_image_reference {
-      publisher = var.imageReference.publisher
-      offer     = var.imageReference.offer
-      sku       = var.imageReference.sku
-      version   = var.imageReference.version
-    }
+  source_image_reference {
+    publisher = var.SRC_IMG_REF_PUBLISHER
+    offer     = var.SRC_IMG_REF_OFFER
+    sku       = var.SRC_IMG_REF_SKU
+    version   = var.SRC_IMG_REF_VERSION
+  }
 
    os_disk {
      caching              = "ReadWrite"

@@ -32,27 +32,13 @@ variable "workload_access_key" {
   description = "Workload Access Key (Exiting in common-configs - Need define in placeholder-config.json)"
   type        = string
 }
-variable "workload_access_secretkey" {
-  description = "Workload Access SecretKey (Exiting in common-configs - Need define in placeholder-config.json)" 
-  type        = string
-}
-variable "common_tags" {
-  description = "Additional resource tags"
-  type        = map(string)
-  default     = {
-    Provisioner = "terraform"
-    TFModule    = "create-azure-resource-group"
-  }
-}
+
+
 variable "env_tags" {
   description = "Additional environment tags"
   type        = map(string)
 }
-variable "custom_vm_name" {
-  description = "Specific Virtual Machine Name"
-  default     = ""
-  type        = string
-}
+
 variable "instance_count" {
   description = "Number of VM instance"
   type = string

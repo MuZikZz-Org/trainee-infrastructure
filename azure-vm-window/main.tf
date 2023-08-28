@@ -84,8 +84,6 @@ resource "azurerm_windows_virtual_machine" "vm" {
    admin_username        = var.os_admin_username
    admin_password        = var.os_admin_password
    hotpatching_enabled   = false
-   patch_mode            = var.patch_mode
-   zone                  = var.vm_zone
    # Uncomment this line to delete the OS disk automatically when deleting the VM
    delete_os_disk_on_termination = true
 

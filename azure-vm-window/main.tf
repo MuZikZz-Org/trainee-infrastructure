@@ -80,7 +80,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
    name                  = "trainee-vm-window"
    location            = "southeastasia"
    resource_group_name = "rg-ais-payment-gateway"
-   network_interface_ids = azurerm_network_interface.net.id
+   network_interface_ids = [azurerm_network_interface.net.id]
    size                  = var.vm_size
    admin_username        = var.os_admin_username
    admin_password        = var.os_admin_password

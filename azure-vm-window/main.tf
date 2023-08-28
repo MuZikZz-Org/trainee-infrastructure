@@ -75,7 +75,7 @@ resource "azurerm_network_security_group" "sg" {
  }
 
 
-resource "azurerm_windows_virtual_machine" "vm" {
+resource "azurerm_windows_virtual_machine" "trainee-vm-window" {
    count                 = var.instance_count
    name                  = "trainee-vm-window"
    location            = "southeastasia"
@@ -97,7 +97,7 @@ resource "azurerm_windows_virtual_machine" "vm" {
     sku       = var.SRC_IMG_REF_SKU
     version   = var.SRC_IMG_REF_VERSION
   }
-
+  computer_name = "natthida"
    os_disk {
      caching              = "ReadWrite"
      storage_account_type = "Standard_LRS"

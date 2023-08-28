@@ -2,7 +2,7 @@
 ##########################################################################################
 # Virtual Network
 ##########################################################################################
-data "azurerm_virtual_network" "network" {
+resource "azurerm_virtual_network" "network" {
   name                = "trainee-window-Vnet"
   address_space       = ["10.0.0.0/16"]
   location            = "SoutheastAsia"
@@ -12,7 +12,7 @@ data "azurerm_virtual_network" "network" {
    )
 }
 ############################ subnet ##########################
-data "azurerm_subnet" "network" {
+resource "azurerm_subnet" "network" {
   name                 = "trainee-window-Subnet"
   resource_group_name  = "rg-ais-payment-gateway"
   virtual_network_name = azurerm_virtual_network.network.name

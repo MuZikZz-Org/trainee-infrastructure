@@ -51,8 +51,6 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
   }
   security_rule {  
     name                        = "Allow_SonarQube"
-    resource_group_name         = "rg-ais-payment-gateway"
-    network_security_group_name = azurerm_network_security_group.my_terraform_nsg.name
     priority                    = 1002
     direction                   = "Inbound"
     access                      = "Allow"

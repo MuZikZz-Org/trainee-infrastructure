@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Install dependencies (e.g., Java)
-sudo apt-get update
+sudo apt-get -y update
 echo "update done"
 
 sudo apt-get install -y openjdk-11-jdk

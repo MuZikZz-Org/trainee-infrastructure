@@ -21,7 +21,7 @@ echo "mv done"
 # ...
 
 # Start SonarQube
-/opt/sonarqube/bin/linux-x86-64/sonar.sh start
+#/opt/sonarqube/bin/linux-x86-64/sonar.sh start
 
 # Run SonarScanner or other code scanning commands
 # Make sure to configure SonarScanner to connect to your SonarQube instance

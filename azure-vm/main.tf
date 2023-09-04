@@ -65,10 +65,6 @@ resource "azurerm_network_security_rule" "sonarqube" {
   destination_port_range      = "9000" # SonarQube default port
   source_address_prefix       = "*"   # You can restrict this to specific IP ranges if needed
   destination_address_prefix  = "*"
-  
-  tags = merge(
-     var.env_tags
-   )
 }
 
 # Create network interface

@@ -54,7 +54,7 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
     priority                    = 1002
     direction                   = "Inbound"
     access                      = "Allow"
-    protocol                    = "Any"
+    protocol                    = "*"
     source_port_range           = "*"
     destination_port_range      = "9000" # SonarQube default port
     source_address_prefix       = "*"   # You can restrict this to specific IP ranges if needed

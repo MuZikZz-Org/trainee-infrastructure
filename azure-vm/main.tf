@@ -53,6 +53,23 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
      var.env_tags
    )
 }
+resource "azurerm_network_security_rule" "sonarqube" {
+  name                        = "Allow_SonarQube"
+  resource_group_name         = azurerm_resource_group.rg.name
+  network_security_group_name = azurerm_network_security_group.my_terraform_nsg.name
+  priority                    = 1002
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "9000" # SonarQube default port
+  source_address_prefix       = "*"   # You can restrict this to specific IP ranges if needed
+  destination_address_prefix  = "*"
+  
+  tags = merge(
+     var.env_tags
+   )
+}
 
 # Create network interface
 resource "azurerm_network_interface" "my_terraform_nic" {

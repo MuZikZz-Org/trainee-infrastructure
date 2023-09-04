@@ -14,10 +14,10 @@ echo "get sonarqube done"
 sudo apt-get install -y unzip
 echo "install unzip done"
 
-unzip sonarqube-9.0.1.46107.zip
+sudo unzip sonarqube-9.0.1.46107.zip
 echo "unzip done"
 
-mv sonarqube-9.0.1.46107 /opt/sonarqube
+sudo mv sonarqube-9.0.1.46107 /opt/sonarqube
 echo "mv done"
 
 # Configure SonarQube settings (e.g., database connection)

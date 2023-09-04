@@ -11,6 +11,9 @@ echo "install openjdk done"
 wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.0.1.46107.zip
 echo "get sonarqube done"
 
+sudo apt-get install -y unzip
+echo "install unzip done"
+
 unzip sonarqube-9.0.1.46107.zip
 echo "unzip done"
 

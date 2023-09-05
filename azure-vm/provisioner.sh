@@ -29,6 +29,9 @@ echo "added user done"
 sudo chown -R sonar:sonar /opt/sonarqube
 echo "chown done"
 
+sed -i "s|#RUN_AS_USER|RUN_AS_USER=sonar|g" /opt/sonarqube/bin/linux-x86-64/sonar.sh
+echo "sed done"
+
 sudo -u sonar /opt/sonarqube/bin/linux-x86-64/sonar.sh start
 echo "start done"
 

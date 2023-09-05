@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 
 # Install dependencies (e.g., Java)
-sudo apt-get -f -y update
+sudo apt-get -y update
 echo "update done"
 
-sudo apt-get install -f -y openjdk-11-jdk
+sudo apt-get install -y openjdk-11-jdk
 echo "install openjdk done"
 
 # Download and install SonarQube
 wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.0.1.46107.zip
 echo "get sonarqube done"
 
-sudo apt-get install -f -y unzip
+sudo apt-get install -y unzip
 echo "install unzip done"
 
 sudo unzip sonarqube-9.0.1.46107.zip

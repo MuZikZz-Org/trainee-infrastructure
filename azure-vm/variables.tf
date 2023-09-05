@@ -32,13 +32,19 @@ variable "SRC_IMG_REF_OFFER" {}
 variable "SRC_IMG_REF_SKU" {}
 variable "SRC_IMG_REF_VERSION" {}
 
-
- variable "env_tags" {
+variable "PUBLIC_IP" {
+  description = "Public IP address for SonarQube"
+  type        = string
+}
+variable "SONARQUBE_PORT" {
+  description = "Port for SonarQube"
+  type        = number
+}
+variable "env_tags" {
     description = "Tags (Specific to the resource)"
     type        = map(string)
 }
-
-#variable "resource_group_location" {
-#  description = "Location of resource group."
-#  type        = string
-#}
+# variable "resource_group_location" {
+#   description = "Location of resource group."
+#   type        = string
+# }

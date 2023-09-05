@@ -94,7 +94,7 @@ resource "azurerm_network_interface_security_group_association" "example" {
 
 # Create storage account for boot diagnostics
 resource "azurerm_storage_account" "my_storage_account" {
-  name                     = "diagtest1230031020"
+  name                     = "diagtest1230031029"
   location                 = "SoutheastAsia"
   resource_group_name      = "rg-ais-payment-gateway"
   account_tier             = "Standard"

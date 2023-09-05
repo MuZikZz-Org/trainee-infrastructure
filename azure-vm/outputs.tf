@@ -11,3 +11,7 @@ output "private_key" {
   sensitive   = true
   description = "Private key for SSH"
 }
+
+output "SONARQUBE_PORT" {
+  value = var.SONARQUBE_PORT
+}

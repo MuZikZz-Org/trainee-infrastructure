@@ -20,14 +20,19 @@ echo "unzip done"
 sudo mv sonarqube-9.0.1.46107 /opt/sonarqube
 echo "mv done"
 
-groupadd sonar
+sudo groupadd sonar
 echo "added group done"
 
-useradd -c "Sonar System User" -d /opt/sonarqube -g sonar -s /bin/bash sonar
+sudo useradd -c "Sonar System User" -d /opt/sonarqube -g sonar -s /bin/bash sonar
 echo "added user done"
 
-chown -R sonar:sonar /opt/sonarqube
+sudo chown -R sonar:sonar /opt/sonarqube
 echo "chown done"
+
+sudo -u sonar /opt/sonarqube/bin/linux-x86-64/sonar.sh start
+echo "start done"
+
+sudo -u sonar /opt/sonarqube/bin/linux-x86-64/sonar.sh status
 
 
 # Configure SonarQube settings (e.g., database connection)

@@ -45,7 +45,7 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "var.SONARQUBE_PORT"
+    destination_port_range     = var.SONARQUBE_PORT
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }

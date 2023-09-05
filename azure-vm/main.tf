@@ -39,26 +39,15 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
   resource_group_name = "rg-ais-payment-gateway"
 
   security_rule {
-    name                       = "SSH"
+    name                       = "SonarQube"
     priority                   = 1001
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "22"
+    destination_port_range     = "9000"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
-  }
-  security_rule {  
-    name                        = "Allow_SonarQube"
-    priority                    = 1002
-    direction                   = "Inbound"
-    access                      = "Allow"
-    protocol                    = "*"
-    source_port_range           = "*"
-    destination_port_range      = "9000" # SonarQube default port
-    source_address_prefix       = "*"   # You can restrict this to specific IP ranges if needed
-    destination_address_prefix  = "*"
   }
     tags = merge(
      var.env_tags

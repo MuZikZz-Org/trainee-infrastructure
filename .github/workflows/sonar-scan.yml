@@ -1,0 +1,59 @@
+name: SonarQube Scan
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: 'adopt'  
+          java-package: jdk
+          architecture: x64
+          check-latest: false
+          server-id: github
+          overwrite-settings: true
+          job-status: success
+
+      - name: Install SonarQube Scanner
+        run: |
+          npm install sonarqube-scanner -g    
+
+          SONARQUBE_URL="http://4.194.13.61:9000"
+          SONARQUBE_TOKEN="${{ secrets.SONARQUBE_TOKEN }}"
+          PROJECT_KEY="trainee-project"
+          PROJECT_NAME="trainee-project"
+          echo "name done"
+
+          DESTINATION_DIR="/home/runner/work/hello-nodejs/hello-nodejs"
+          
+          # Clone the repository if code is in another repository
+          REPOSITORY_URL="https://github.com/MuZikZz-Org/hello-nodejs" 
+          git clone "$REPOSITORY_URL" "$DESTINATION_DIR"
+          echo "clone done"
+
+          # Create SonarQube project
+          curl -u "${SONARQUBE_TOKEN}:" -X POST "${SONARQUBE_URL}/api/projects/create" \
+            -d "key=${PROJECT_KEY}" \
+            -d "name=${PROJECT_NAME}" 
+            echo "Create SonarQube project done"
+
+          # Run SonarQube scanner from the cloned repository directory
+          ls
+          cd "$DESTINATION_DIR"
+          echo "cd done"
+          
+          sonar-scanner \
+            -Dsonar.host.url="${SONARQUBE_URL}" \
+            -Dsonar.login="${SONARQUBE_TOKEN}" \
+            -Dsonar.projectKey="${PROJECT_KEY}" \
+            -Dsonar.sources=./ 
+            echo "Analyze code using SonarQube Scanner"

@@ -1,0 +1,19 @@
+name: Workflow 1
+on:
+  workflow_dispatch:
+
+jobs:
+  calling:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Test
+        run: |
+          curl -X POST https://api.github.com/repos/MuZikZz-Org/.github/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.GIT_TOKEN }} \
+          --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "trainee-infrastructure", "workflow": "test-sonar.yml" }}'
+      - uses: actions/checkout@v3
+     
+

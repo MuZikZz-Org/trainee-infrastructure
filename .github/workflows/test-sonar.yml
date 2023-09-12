@@ -1,4 +1,4 @@
-name: Workflow 1
+name: Sonar scan
 on:
   workflow_dispatch:
 
@@ -8,7 +8,7 @@ jobs:
 
     steps:
 
-      - name: Test
+      - name: scanning
         run: |
           curl -X POST https://api.github.com/repos/MuZikZz-Org/.github/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
